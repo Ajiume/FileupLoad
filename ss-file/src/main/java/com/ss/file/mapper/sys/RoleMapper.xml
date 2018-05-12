@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ss.file.mapper.sys.RoleMapper" >
+  <resultMap id="BaseResultMap" type="com.ss.file.pojo.sys.Role" >
+    <id column="SEQ_ID" property="seqId" jdbcType="BIGINT" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="CREATE_USER" property="createUser" jdbcType="BIGINT" />
+    <result column="DESCRIPTION" property="description" jdbcType="VARCHAR" />
+    <result column="IS_SYSTEM" property="isSystem" jdbcType="BIT" />
+    <result column="ROLE_NAME" property="roleName" jdbcType="VARCHAR" />
+    <result column="AUTHORITY_LIST_STORE" property="authorityListStore" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    seq_id, create_time, create_user, description, is_system, role_name, authority_list_store
+  </sql>
+  
+	<sql id="query_Column_List" >
+		<if test="seq_id != null" >
+			and seq_id=#{seqId}
+		</if>
+		<if test="role_name != null" >
+			and role_name=#{ROLE_NAME}
+		</if>
+		<if test="authority_list_store != null" >
+			and authority_list_store=#{authorityListStore}
+		</if>
+		<if test="is_system != null" >
+			and is_system=#{isSystem}
+		</if>
+		<if test="description != null" >
+			and description=#{description}
+		</if>
+		<if test="create_time != null" >
+			and create_time=#{createTime}
+		</if>
+		<if test="create_user != null" >
+			and create_user=#{createUser}
+		</if>
+  	</sql>
+
+	<!--分页查询 start -->
+	<select id="queryByCount" resultType="java.lang.Integer" parameterType="map">
+		select count(1) from tb_sys_role where 1=1 
+		 <include refid="query_Column_List" />
+	</select>
+	
+	<!-- 根据搜索条件分页查询ygc_company -->
+	<select id="queryByList" resultMap="BaseResultMap" parameterType="map">
+		select 
+		 	 <include refid="Base_Column_List" />
+		 from tb_sys_role where 1=1 
+        <include refid="query_Column_List" />
+        
+		<if test="orderCondition != null and orderCondition !=''">
+			${orderCondition}
+		</if>
+		<if test="mysqlQueryCondition != null and mysqlQueryCondition != ''">
+			${mysqlQueryCondition}
+		</if>
+	</select>
+   <!--分页查询 end -->
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_sys_role
+    where SEQ_ID = #{seqId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from tb_sys_role
+    where SEQ_ID = #{seqId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ss.file.pojo.sys.Role" >
+    insert into tb_sys_role (SEQ_ID, CREATE_TIME, CREATE_USER, 
+      DESCRIPTION, IS_SYSTEM, ROLE_NAME, 
+      AUTHORITY_LIST_STORE, AUTHORITY_LIST_STORE_PARENT
+      )
+    values (#{seqId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{createUser,jdbcType=BIGINT}, 
+      #{description,jdbcType=VARCHAR}, #{isSystem,jdbcType=BIT}, #{roleName,jdbcType=VARCHAR}, 
+      #{authorityListStore,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ss.file.pojo.sys.Role" >
+    insert into tb_sys_role
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="seqId != null" >
+        SEQ_ID,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="createUser != null" >
+        CREATE_USER,
+      </if>
+      <if test="description != null" >
+        DESCRIPTION,
+      </if>
+      <if test="isSystem != null" >
+        IS_SYSTEM,
+      </if>
+      <if test="roleName != null" >
+        ROLE_NAME,
+      </if>
+      <if test="authorityListStore != null" >
+        AUTHORITY_LIST_STORE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="seqId != null" >
+        #{seqId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null" >
+        #{createUser,jdbcType=BIGINT},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="isSystem != null" >
+        #{isSystem,jdbcType=BIT},
+      </if>
+      <if test="roleName != null" >
+        #{roleName,jdbcType=VARCHAR},
+      </if>
+      <if test="authorityListStore != null" >
+        #{authorityListStore,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ss.file.pojo.sys.Role" >
+    update tb_sys_role
+    <set >
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null" >
+        CREATE_USER = #{createUser,jdbcType=BIGINT},
+      </if>
+      <if test="description != null" >
+        DESCRIPTION = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="isSystem != null" >
+        IS_SYSTEM = #{isSystem,jdbcType=BIT},
+      </if>
+      <if test="roleName != null" >
+        ROLE_NAME = #{roleName,jdbcType=VARCHAR},
+      </if>
+      <if test="authorityListStore != null" >
+        AUTHORITY_LIST_STORE = #{authorityListStore,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where SEQ_ID = #{seqId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ss.file.pojo.sys.Role" >
+    update tb_sys_role
+    set CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      CREATE_USER = #{createUser,jdbcType=BIGINT},
+      DESCRIPTION = #{description,jdbcType=VARCHAR},
+      IS_SYSTEM = #{isSystem,jdbcType=BIT},
+      ROLE_NAME = #{roleName,jdbcType=VARCHAR}
+    where SEQ_ID = #{seqId,jdbcType=BIGINT}
+  </update>
+</mapper>

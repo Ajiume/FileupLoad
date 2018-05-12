@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ss.file.mapper.ftp.FileFtpConfMapper" >
+  <resultMap id="BaseResultMap" type="com.ss.file.pojo.ftp.FileFtpConf" >
+    <id column="conf_id" property="confId" jdbcType="INTEGER" />
+    <result column="ftp_address" property="ftpAddress" jdbcType="VARCHAR" />
+    <result column="ftp_port" property="ftpPort" jdbcType="INTEGER" />
+    <result column="ftp_username" property="ftpUsername" jdbcType="VARCHAR" />
+    <result column="ftp_password" property="ftpPassword" jdbcType="VARCHAR" />
+    <result column="ftp_base_path" property="ftpBasePath" jdbcType="VARCHAR" />
+    <result column="ftp_url" property="ftpUrl" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="create_user" property="createUser" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    conf_id, ftp_address, ftp_port, ftp_username, ftp_password, ftp_base_path, ftp_url, 
+    remark, create_user, create_time, update_user, update_time
+  </sql>
+  <sql id="query_Column_List" >
+      <if test="ftpAddress != null and ftpAddress !=''" >
+        and ftp_address=#{ftpAddress}
+      </if>
+      <if test="ftpPort != null and ftpPort !=''" >
+        and ftp_port=#{ftpPort}
+      </if>
+      <if test="ftpUsername != null and ftpUsername !=''" >
+        and ftp_username=#{ftpUsername}
+      </if>
+      <if test="ftpPassword != null and ftpPassword !=''" >
+        and ftp_password=#{ftpPassword}
+      </if>
+  </sql>
+  <select id="queryByCount" resultType="java.lang.Integer" parameterType="map">
+		select count(1) from tb_file_ftp_conf where 1=1 
+		 <include refid="query_Column_List" />
+  </select>
+  <select id="queryByList" resultMap="BaseResultMap" parameterType="map" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_file_ftp_conf where 1=1 
+    <include refid="query_Column_List" />
+    <if test="orderCondition != null and orderCondition !=''"> 
+ 		${orderCondition}
+ 	</if>
+	<if test="mysqlQueryCondition != null and mysqlQueryCondition != ''">
+		${mysqlQueryCondition}
+	</if>
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" parameterType="map" >
+    select <include refid="Base_Column_List" />
+    from tb_file_ftp_conf
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_file_ftp_conf
+    where conf_id = #{confId,jdbcType=INTEGER}
+  </select>
+  <select id="selectByParams" resultMap="BaseResultMap" parameterType="com.ss.file.pojo.ftp.FileFtpConf" >
+    select <include refid="Base_Column_List" />
+    from tb_file_ftp_conf
+    where 1=1 <include refid="query_Column_List" />
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tb_file_ftp_conf
+    where conf_id = #{confId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.ss.file.pojo.ftp.FileFtpConf" >
+    insert into tb_file_ftp_conf (ftp_address, ftp_port, 
+      ftp_username, ftp_password, ftp_base_path, 
+      ftp_url, remark, create_user, 
+      create_time, update_user, update_time
+      )
+    values (#{ftpAddress,jdbcType=VARCHAR}, #{ftpPort,jdbcType=INTEGER}, 
+      #{ftpUsername,jdbcType=VARCHAR}, #{ftpPassword,jdbcType=VARCHAR}, #{ftpBasePath,jdbcType=VARCHAR}, 
+      #{ftpUrl,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{createUser,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ss.file.pojo.ftp.FileFtpConf" >
+    insert into tb_file_ftp_conf
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="ftpAddress != null" >
+        ftp_address,
+      </if>
+      <if test="ftpPort != null" >
+        ftp_port,
+      </if>
+      <if test="ftpUsername != null" >
+        ftp_username,
+      </if>
+      <if test="ftpPassword != null" >
+        ftp_password,
+      </if>
+      <if test="ftpBasePath != null" >
+        ftp_base_path,
+      </if>
+      <if test="ftpUrl != null" >
+        ftp_url,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="createUser != null" >
+        create_user,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateUser != null" >
+        update_user,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="ftpAddress != null" >
+        #{ftpAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="ftpPort != null" >
+        #{ftpPort,jdbcType=INTEGER},
+      </if>
+      <if test="ftpUsername != null" >
+        #{ftpUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="ftpPassword != null" >
+        #{ftpPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="ftpBasePath != null" >
+        #{ftpBasePath,jdbcType=VARCHAR},
+      </if>
+      <if test="ftpUrl != null" >
+        #{ftpUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null" >
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null" >
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <insert id="insertByParams" parameterType="map" >
+    insert into tb_file_ftp_conf
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="ftpAddress != null" >
+        ftp_address,
+      </if>
+      <if test="ftpPort != null" >
+        ftp_port,
+      </if>
+      <if test="ftpUsername != null" >
+        ftp_username,
+      </if>
+      <if test="ftpPassword != null" >
+        ftp_password,
+      </if>
+      <if test="ftpBasePath != null" >
+        ftp_base_path,
+      </if>
+      <if test="ftpUrl != null" >
+        ftp_url,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="createUser != null" >
+        create_user,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateUser != null" >
+        update_user,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="ftpAddress != null" >
+        #{ftpAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="ftpPort != null" >
+        #{ftpPort,jdbcType=INTEGER},
+      </if>
+      <if test="ftpUsername != null" >
+        #{ftpUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="ftpPassword != null" >
+        #{ftpPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="ftpBasePath != null" >
+        #{ftpBasePath,jdbcType=VARCHAR},
+      </if>
+      <if test="ftpUrl != null" >
+        #{ftpUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null" >
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null" >
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ss.file.pojo.ftp.FileFtpConf" >
+    update tb_file_ftp_conf
+    <set >
+      <if test="ftpAddress != null" >
+        ftp_address = #{ftpAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="ftpPort != null" >
+        ftp_port = #{ftpPort,jdbcType=INTEGER},
+      </if>
+      <if test="ftpUsername != null" >
+        ftp_username = #{ftpUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="ftpPassword != null" >
+        ftp_password = #{ftpPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="ftpBasePath != null" >
+        ftp_base_path = #{ftpBasePath,jdbcType=VARCHAR},
+      </if>
+      <if test="ftpUrl != null" >
+        ftp_url = #{ftpUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null" >
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null" >
+        update_user = #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where conf_id = #{confId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByParams" parameterType="map" >
+    update tb_file_ftp_conf
+    <set >
+      <if test="ftpAddress != null" >
+        ftp_address = #{ftpAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="ftpPort != null" >
+        ftp_port = #{ftpPort,jdbcType=INTEGER},
+      </if>
+      <if test="ftpUsername != null" >
+        ftp_username = #{ftpUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="ftpPassword != null" >
+        ftp_password = #{ftpPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="ftpBasePath != null" >
+        ftp_base_path = #{ftpBasePath,jdbcType=VARCHAR},
+      </if>
+      <if test="ftpUrl != null" >
+        ftp_url = #{ftpUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null" >
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null" >
+        update_user = #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where conf_id = #{confId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ss.file.pojo.ftp.FileFtpConf" >
+    update tb_file_ftp_conf
+    set ftp_address = #{ftpAddress,jdbcType=VARCHAR},
+      ftp_port = #{ftpPort,jdbcType=INTEGER},
+      ftp_username = #{ftpUsername,jdbcType=VARCHAR},
+      ftp_password = #{ftpPassword,jdbcType=VARCHAR},
+      ftp_base_path = #{ftpBasePath,jdbcType=VARCHAR},
+      ftp_url = #{ftpUrl,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_user = #{updateUser,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where conf_id = #{confId,jdbcType=INTEGER}
+  </update>
+</mapper>

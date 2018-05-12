@@ -1,0 +1,545 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ss.file.mapper.ftp.FileMainMapper" >
+  <resultMap id="BaseResultMap" type="com.ss.file.pojo.ftp.FileMain" >
+    <id column="fd_id" property="fdId" jdbcType="INTEGER" />
+    <result column="fd_model_id" property="fdModelId" jdbcType="INTEGER" />
+    <result column="fd_model_name" property="fdModelName" jdbcType="VARCHAR" />
+    <result column="fd_key" property="fdKey" jdbcType="VARCHAR" />
+    <result column="fd_src_name" property="fdSrcName" jdbcType="VARCHAR" />
+    <result column="fd_dest_name" property="fdDestName" jdbcType="VARCHAR" />
+    <result column="fd_content_type" property="fdContentType" jdbcType="VARCHAR" />
+    <result column="fd_att_type" property="fdAttType" jdbcType="VARCHAR" />
+    <result column="doc_create_time" property="docCreateTime" jdbcType="TIMESTAMP" />
+    <result column="fd_file_path" property="fdFilePath" jdbcType="VARCHAR" />
+    <result column="fd_person_id" property="fdPersonId" jdbcType="VARCHAR" />
+    <result column="fd_last_open_time" property="fdLastOpenTime" jdbcType="TIMESTAMP" />
+    <result column="fd_size" property="fdSize" jdbcType="DECIMAL" />
+    <result column="fd_att_location" property="fdAttLocation" jdbcType="VARCHAR" />
+    <result column="fd_order" property="fdOrder" jdbcType="INTEGER" />
+    <result column="fd_creator_id" property="fdCreatorId" jdbcType="VARCHAR" />
+    <result column="download_sum" property="downloadSum" jdbcType="INTEGER" />
+    <result column="fd_file_id" property="fdFileId" jdbcType="VARCHAR" />
+    <result column="create_user" property="createUser" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="fd_content_describe" property="fdContentDescribe" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    fd_id, fd_model_id, fd_model_name, fd_key, fd_src_name, fd_dest_name, fd_content_type, fd_att_type, 
+    doc_create_time, fd_file_path, fd_person_id, fd_last_open_time, fd_size, fd_att_location, 
+    fd_order, fd_creator_id, download_sum, fd_file_id, create_user, create_time, update_user, 
+    update_time,fd_content_describe
+  </sql>
+  <sql id="query_Column_List" >
+      <if test="fdModelId != null and fdModelId !=''" >
+        and fd_model_id=#{fdModelId}
+      </if>
+      <if test="fdModelName != null and fdModelName !=''" >
+        and fd_model_name=#{fdModelName}
+      </if>
+      <if test="fdKey != null and fdKey !=''" >
+        and fd_key=#{fdKey}
+      </if>
+      <if test="fdSrcName != null and fdSrcName !=''" >
+        and fd_src_name=#{fdSrcName}
+      </if>
+      <if test="fdDestName != null and fdDestName !=''" >
+        and fd_dest_name=#{fdDestName}
+      </if>
+      <if test="fdContentDescribe != null and fdContentDescribe !=''" >
+        and fd_content_describe=#{fdContentDescribe}
+      </if>
+      <if test="fdAttType != null and fdAttType !=''" >
+        and fd_att_type=#{fdAttType}
+      </if>
+  </sql>
+  <select id="queryByCount" resultType="java.lang.Integer" parameterType="map">
+		select count(1) from tb_file_main where 1=1 
+		 <include refid="query_Column_List" />
+  </select>
+  <select id="queryByList" resultMap="BaseResultMap" parameterType="map" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_file_main where 1=1 
+    <include refid="query_Column_List"/>
+    <if test="orderCondition != null and orderCondition !=''"> 
+ 		${orderCondition}
+ 	</if>
+	<if test="mysqlQueryCondition != null and mysqlQueryCondition != ''">
+		${mysqlQueryCondition}
+	</if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_file_main
+    where fd_id = #{fdId,jdbcType=INTEGER}
+  </select>
+  <select id="selectByParams" resultMap="BaseResultMap" parameterType="com.ss.file.pojo.ftp.FileMain" >
+    select <include refid="Base_Column_List" />
+    from tb_file_main where 1=1
+    <include refid="query_Column_List"/>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tb_file_main
+    where fd_id = #{fdId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.ss.file.pojo.ftp.FileMain" keyProperty="fdId">
+    insert into tb_file_main (fd_id, fd_model_id, fd_model_name, 
+      fd_key, fd_src_name, fd_dest_name, fd_content_type, 
+      fd_att_type, doc_create_time, fd_file_path, 
+      fd_person_id, fd_last_open_time, fd_size, 
+      fd_att_location, fd_order, fd_creator_id, 
+      download_sum, fd_file_id, create_user, 
+      create_time, update_user, update_time
+      )
+    values (#{fdId,jdbcType=INTEGER}, #{fdModelId,jdbcType=INTEGER}, #{fdModelName,jdbcType=VARCHAR}, 
+      #{fdKey,jdbcType=VARCHAR}, #{fdSrcName,jdbcType=VARCHAR},#{fdDestName,jdbcType=VARCHAR}, #{fdContentType,jdbcType=VARCHAR}, 
+      #{fdAttType,jdbcType=VARCHAR}, #{docCreateTime,jdbcType=TIMESTAMP}, #{fdFilePath,jdbcType=VARCHAR}, 
+      #{fdPersonId,jdbcType=VARCHAR}, #{fdLastOpenTime,jdbcType=TIMESTAMP}, #{fdSize,jdbcType=DECIMAL}, 
+      #{fdAttLocation,jdbcType=VARCHAR}, #{fdOrder,jdbcType=INTEGER}, #{fdCreatorId,jdbcType=VARCHAR}, 
+      #{downloadSum,jdbcType=INTEGER}, #{fdFileId,jdbcType=VARCHAR}, #{createUser,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ss.file.pojo.ftp.FileMain" keyProperty="fdId">
+    insert into tb_file_main
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="fdModelId != null" >
+        fd_model_id,
+      </if>
+      <if test="fdModelName != null" >
+        fd_model_name,
+      </if>
+      <if test="fdKey != null" >
+        fd_key,
+      </if>
+      <if test="fdSrcName != null" >
+        fd_src_name,
+      </if>
+      <if test="fdDestName != null" >
+        fd_dest_name,
+      </if>
+      <if test="fdContentType != null" >
+        fd_content_type,
+      </if>
+      <if test="fdAttType != null" >
+        fd_att_type,
+      </if>
+      <if test="docCreateTime != null" >
+        doc_create_time,
+      </if>
+      <if test="fdFilePath != null" >
+        fd_file_path,
+      </if>
+      <if test="fdPersonId != null" >
+        fd_person_id,
+      </if>
+      <if test="fdLastOpenTime != null" >
+        fd_last_open_time,
+      </if>
+      <if test="fdSize != null" >
+        fd_size,
+      </if>
+      <if test="fdAttLocation != null" >
+        fd_att_location,
+      </if>
+      <if test="fdOrder != null" >
+        fd_order,
+      </if>
+      <if test="fdCreatorId != null" >
+        fd_creator_id,
+      </if>
+      <if test="downloadSum != null" >
+        download_sum,
+      </if>
+      <if test="fdFileId != null" >
+        fd_file_id,
+      </if>
+      <if test="createUser != null" >
+        create_user,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateUser != null" >
+        update_user,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="fdContentDescribe != null" >
+        fd_content_describe,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="fdModelId != null" >
+        #{fdModelId,jdbcType=INTEGER},
+      </if>
+      <if test="fdModelName != null" >
+        #{fdModelName,jdbcType=VARCHAR},
+      </if>
+      <if test="fdKey != null" >
+        #{fdKey,jdbcType=VARCHAR},
+      </if>
+      <if test="fdSrcName != null" >
+        #{fdSrcName,jdbcType=VARCHAR},
+      </if>
+      <if test="fdDestName != null" >
+        #{fdDestName,jdbcType=VARCHAR},
+      </if>
+      <if test="fdContentType != null" >
+        #{fdContentType,jdbcType=VARCHAR},
+      </if>
+      <if test="fdAttType != null" >
+        #{fdAttType,jdbcType=VARCHAR},
+      </if>
+      <if test="docCreateTime != null" >
+        #{docCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fdFilePath != null" >
+        #{fdFilePath,jdbcType=VARCHAR},
+      </if>
+      <if test="fdPersonId != null" >
+        #{fdPersonId,jdbcType=VARCHAR},
+      </if>
+      <if test="fdLastOpenTime != null" >
+        #{fdLastOpenTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fdSize != null" >
+        #{fdSize,jdbcType=DECIMAL},
+      </if>
+      <if test="fdAttLocation != null" >
+        #{fdAttLocation,jdbcType=VARCHAR},
+      </if>
+      <if test="fdOrder != null" >
+        #{fdOrder,jdbcType=INTEGER},
+      </if>
+      <if test="fdCreatorId != null" >
+        #{fdCreatorId,jdbcType=VARCHAR},
+      </if>
+      <if test="downloadSum != null" >
+        #{downloadSum,jdbcType=INTEGER},
+      </if>
+      <if test="fdFileId != null" >
+        #{fdFileId,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null" >
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null" >
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fdContentDescribe != null" >
+        #{fdContentDescribe,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <insert id="insertByParams" parameterType="map" keyProperty="fdId">
+    insert into tb_file_main
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="fdModelId != null" >
+        fd_model_id,
+      </if>
+      <if test="fdModelName != null" >
+        fd_model_name,
+      </if>
+      <if test="fdKey != null" >
+        fd_key,
+      </if>
+      <if test="fdSrcName != null" >
+        fd_src_name,
+      </if>
+      <if test="fdDestName != null" >
+        fd_dest_name,
+      </if>
+      <if test="fdContentType != null" >
+        fd_content_type,
+      </if>
+      <if test="fdAttType != null" >
+        fd_att_type,
+      </if>
+      <if test="docCreateTime != null" >
+        doc_create_time,
+      </if>
+      <if test="fdFilePath != null" >
+        fd_file_path,
+      </if>
+      <if test="fdPersonId != null" >
+        fd_person_id,
+      </if>
+      <if test="fdLastOpenTime != null" >
+        fd_last_open_time,
+      </if>
+      <if test="fdSize != null" >
+        fd_size,
+      </if>
+      <if test="fdAttLocation != null" >
+        fd_att_location,
+      </if>
+      <if test="fdOrder != null" >
+        fd_order,
+      </if>
+      <if test="fdCreatorId != null" >
+        fd_creator_id,
+      </if>
+      <if test="downloadSum != null" >
+        download_sum,
+      </if>
+      <if test="fdFileId != null" >
+        fd_file_id,
+      </if>
+      <if test="createUser != null" >
+        create_user,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateUser != null" >
+        update_user,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="fdModelId != null" >
+        #{fdModelId,jdbcType=INTEGER},
+      </if>
+      <if test="fdModelName != null" >
+        #{fdModelName,jdbcType=VARCHAR},
+      </if>
+      <if test="fdKey != null" >
+        #{fdKey,jdbcType=VARCHAR},
+      </if>
+      <if test="fdSrcName != null" >
+        #{fdSrcName,jdbcType=VARCHAR},
+      </if>
+      <if test="fdDestName != null" >
+        #{fdDestName,jdbcType=VARCHAR},
+      </if>
+      <if test="fdContentType != null" >
+        #{fdContentType,jdbcType=VARCHAR},
+      </if>
+      <if test="fdAttType != null" >
+        #{fdAttType,jdbcType=VARCHAR},
+      </if>
+      <if test="docCreateTime != null" >
+        #{docCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fdFilePath != null" >
+        #{fdFilePath,jdbcType=VARCHAR},
+      </if>
+      <if test="fdPersonId != null" >
+        #{fdPersonId,jdbcType=VARCHAR},
+      </if>
+      <if test="fdLastOpenTime != null" >
+        #{fdLastOpenTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fdSize != null" >
+        #{fdSize,jdbcType=DECIMAL},
+      </if>
+      <if test="fdAttLocation != null" >
+        #{fdAttLocation,jdbcType=VARCHAR},
+      </if>
+      <if test="fdOrder != null" >
+        #{fdOrder,jdbcType=INTEGER},
+      </if>
+      <if test="fdCreatorId != null" >
+        #{fdCreatorId,jdbcType=VARCHAR},
+      </if>
+      <if test="downloadSum != null" >
+        #{downloadSum,jdbcType=INTEGER},
+      </if>
+      <if test="fdFileId != null" >
+        #{fdFileId,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null" >
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null" >
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ss.file.pojo.ftp.FileMain" >
+    update tb_file_main
+    <set >
+      <if test="fdModelId != null" >
+        fd_model_id = #{fdModelId,jdbcType=INTEGER},
+      </if>
+      <if test="fdModelName != null" >
+        fd_model_name = #{fdModelName,jdbcType=VARCHAR},
+      </if>
+      <if test="fdKey != null" >
+        fd_key = #{fdKey,jdbcType=VARCHAR},
+      </if>
+      <if test="fdSrcName != null" >
+        fd_src_name = #{fdSrcName,jdbcType=VARCHAR},
+      </if>
+      <if test="fdDestName != null" >
+        fd_dest_name = #{fdDestName,jdbcType=VARCHAR},
+      </if>
+      <if test="fdContentType != null" >
+        fd_content_type = #{fdContentType,jdbcType=VARCHAR},
+      </if>
+      <if test="fdAttType != null" >
+        fd_att_type = #{fdAttType,jdbcType=VARCHAR},
+      </if>
+      <if test="docCreateTime != null" >
+        doc_create_time = #{docCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fdFilePath != null" >
+        fd_file_path = #{fdFilePath,jdbcType=VARCHAR},
+      </if>
+      <if test="fdPersonId != null" >
+        fd_person_id = #{fdPersonId,jdbcType=VARCHAR},
+      </if>
+      <if test="fdLastOpenTime != null" >
+        fd_last_open_time = #{fdLastOpenTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fdSize != null" >
+        fd_size = #{fdSize,jdbcType=DECIMAL},
+      </if>
+      <if test="fdAttLocation != null" >
+        fd_att_location = #{fdAttLocation,jdbcType=VARCHAR},
+      </if>
+      <if test="fdOrder != null" >
+        fd_order = #{fdOrder,jdbcType=INTEGER},
+      </if>
+      <if test="fdCreatorId != null" >
+        fd_creator_id = #{fdCreatorId,jdbcType=VARCHAR},
+      </if>
+      <if test="downloadSum != null" >
+        download_sum = #{downloadSum,jdbcType=INTEGER},
+      </if>
+      <if test="fdFileId != null" >
+        fd_file_id = #{fdFileId,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null" >
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null" >
+        update_user = #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fdContentDescribe != null" >
+        fd_content_describe = #{fdContentDescribe,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where fd_id = #{fdId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByParams" parameterType="map" >
+    update tb_file_main
+    <set >
+      <if test="fdModelId != null" >
+        fd_model_id = #{fdModelId,jdbcType=INTEGER},
+      </if>
+      <if test="fdModelName != null" >
+        fd_model_name = #{fdModelName,jdbcType=VARCHAR},
+      </if>
+      <if test="fdKey != null" >
+        fd_key = #{fdKey,jdbcType=VARCHAR},
+      </if>
+      <if test="fdSrcName != null" >
+        fd_src_name = #{fdSrcName,jdbcType=VARCHAR},
+      </if>
+      <if test="fdDestName != null" >
+        fd_dest_name = #{fdDestName,jdbcType=VARCHAR},
+      </if>
+      <if test="fdContentType != null" >
+        fd_content_type = #{fdContentType,jdbcType=VARCHAR},
+      </if>
+      <if test="fdAttType != null" >
+        fd_att_type = #{fdAttType,jdbcType=VARCHAR},
+      </if>
+      <if test="docCreateTime != null" >
+        doc_create_time = #{docCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fdFilePath != null" >
+        fd_file_path = #{fdFilePath,jdbcType=VARCHAR},
+      </if>
+      <if test="fdPersonId != null" >
+        fd_person_id = #{fdPersonId,jdbcType=VARCHAR},
+      </if>
+      <if test="fdLastOpenTime != null" >
+        fd_last_open_time = #{fdLastOpenTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fdSize != null" >
+        fd_size = #{fdSize,jdbcType=DECIMAL},
+      </if>
+      <if test="fdAttLocation != null" >
+        fd_att_location = #{fdAttLocation,jdbcType=VARCHAR},
+      </if>
+      <if test="fdOrder != null" >
+        fd_order = #{fdOrder,jdbcType=INTEGER},
+      </if>
+      <if test="fdCreatorId != null" >
+        fd_creator_id = #{fdCreatorId,jdbcType=VARCHAR},
+      </if>
+      <if test="downloadSum != null" >
+        download_sum = #{downloadSum,jdbcType=INTEGER},
+      </if>
+      <if test="fdFileId != null" >
+        fd_file_id = #{fdFileId,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null" >
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null" >
+        update_user = #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where fd_id = #{fdId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ss.file.pojo.ftp.FileMain" >
+    update tb_file_main
+    set fd_model_id = #{fdModelId,jdbcType=INTEGER},
+      fd_model_name = #{fdModelName,jdbcType=VARCHAR},
+      fd_key = #{fdKey,jdbcType=VARCHAR},
+      fd_src_name = #{fdSrcName,jdbcType=VARCHAR},
+      fd_dest_name = #{fdDestName,jdbcType=VARCHAR},
+      fd_content_type = #{fdContentType,jdbcType=VARCHAR},
+      fd_att_type = #{fdAttType,jdbcType=VARCHAR},
+      doc_create_time = #{docCreateTime,jdbcType=TIMESTAMP},
+      fd_file_path = #{fdFilePath,jdbcType=VARCHAR},
+      fd_person_id = #{fdPersonId,jdbcType=VARCHAR},
+      fd_last_open_time = #{fdLastOpenTime,jdbcType=TIMESTAMP},
+      fd_size = #{fdSize,jdbcType=DECIMAL},
+      fd_att_location = #{fdAttLocation,jdbcType=VARCHAR},
+      fd_order = #{fdOrder,jdbcType=INTEGER},
+      fd_creator_id = #{fdCreatorId,jdbcType=VARCHAR},
+      download_sum = #{downloadSum,jdbcType=INTEGER},
+      fd_file_id = #{fdFileId,jdbcType=VARCHAR},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_user = #{updateUser,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where fd_id = #{fdId,jdbcType=INTEGER}
+  </update>
+</mapper>
